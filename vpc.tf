@@ -33,13 +33,48 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 }
 
-# resource "aws_eip" "bar" {
-#   domain = "vpc"
 
-#   instance                  = aws_instance.this.id
-#   associate_with_private_ip = "10.0.10.250"
-#   depends_on                = [aws_internet_gateway.gw]
-# }
+# Create a Route Table for Public Subnet
+resource "aws_route_table" "this" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "this-public-route-table"
+  }
+}
+
+# Associate the Route Table with the Public Subnet
+resource "aws_route_table_association" "this" {
+  subnet_id      = aws_subnet.this.id
+  route_table_id = aws_route_table.this.id
+}
+
+
+# Create a Route Table for Public Subnet
+resource "aws_route_table" "that" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "that-public-route-table"
+  }
+}
+
+# Associate the Route Table with the Public Subnet
+resource "aws_route_table_association" "that" {
+  subnet_id      = aws_subnet.that.id
+  route_table_id = aws_route_table.that.id
+}
+
 
 
 
