@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "corighose-vpc"
+    Name = "collinsefe-vpc"
   }
 }
 
