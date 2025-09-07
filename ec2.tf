@@ -7,6 +7,6 @@ resource "aws_instance" "this" {
   subnet_id     = aws_subnet.this.id
 
   tags = {
-    Name = "corighose-ec2-instance"
+    Name = "collinsefe-ec2-instance"
   }
 }
